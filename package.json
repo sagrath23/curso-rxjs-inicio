@@ -15,7 +15,7 @@
     "webpack-cli": "^3.3.11"
   },
   "scripts": {
-    "start": "webpack-dev-server --mode development --open --port=8081"
+    "start": "webpack-dev-server --mode development --open --port=3000"
   },
   "author": "",
   "license": "ISC"
