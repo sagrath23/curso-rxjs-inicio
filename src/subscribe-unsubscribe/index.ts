@@ -10,8 +10,10 @@ const observer: Observer<number> = {
 const interval$ = new Observable<number>((subscriber) => {
   let counter = 0;
  
+  // get a reference to the interval created to increment counter
   const interval = setInterval(() => {
     counter++;
+    // and publish each increment when this function is invoked by setInterval
     subscriber.next(counter);
   }, 1000);
 
