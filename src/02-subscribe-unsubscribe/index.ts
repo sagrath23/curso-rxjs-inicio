@@ -19,7 +19,11 @@ const interval$ = new Observable<number>((subscriber) => {
 
   // in this case, a function is returned to be executed by unsubscribe function
   return () => {
+    // use the reference of the interval created to increment counter to clear it
+    // avoiding memory leaks
     clearInterval(interval);
+    //and emit the complete signal to the observers
+    subscriber.complete();
     console.log('Destroyed interval');
   }
 });
@@ -27,6 +31,7 @@ const interval$ = new Observable<number>((subscriber) => {
 const subscription = interval$.subscribe(observer);
 
 setTimeout(() => {
+  // unsubscribe didn't finish Observable, only finish the reception of Obvervable's emitted values
   subscription.unsubscribe();
   console.log('subscription finished');
 }, 10000);
