@@ -12,6 +12,7 @@ const src2$ = of(...data);
 src$.subscribe(observer);
 src2$.subscribe(observer);
 
+// I can use from to handle an async request to an API and handle the response
 const dataSource$ = from(fetch('https://api.github.com/users/sagrath23'));
 
 dataSource$.subscribe(async (response) => {
@@ -20,6 +21,7 @@ dataSource$.subscribe(async (response) => {
   console.log(userData, 'data');
 });
 
+// or consume an iterable object (created by a function generator)
 const numberGenerator = function*() {
   yield 1;
   yield 2;
