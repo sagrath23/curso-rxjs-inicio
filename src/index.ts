@@ -1,36 +1,17 @@
-import { from, of } from 'rxjs';
+import { range, fromEvent } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-const observer = {
-  next: (value) => console.log(`next: ${value}`),
-  complete: () => console.info('completed')
-};
-const data = [1,2,3,4,5];
-const src$ = from(data);
-// if I pass data without the spread operator, this observable only emit one value
-const src2$ = of(...data);
+// pipe is a function that allow us to chain operators to an observable
+range(1, 10).pipe(
+  // map is an operator that apply the passed function to each value emitted by the observable
+  map<number, number>((value) => value * 10)
+).subscribe(console.log);
 
-src$.subscribe(observer);
-src2$.subscribe(observer);
+const printKey = (key) => console.log(key, 'key');
+const keyUp$ = fromEvent<KeyboardEvent>(document, 'keyup');
+// pipe function returns a new observable 
+const keyUpCode$ = keyUp$.pipe(map(event => event.code));
 
-const dataSource$ = from(fetch('https://api.github.com/users/sagrath23'));
+keyUp$.subscribe(printKey);
 
-dataSource$.subscribe(async (response) => {
-  const userData = await response.json();
-
-  console.log(userData, 'data');
-});
-
-const numberGenerator = function*() {
-  yield 1;
-  yield 2;
-  yield 3;
-  yield 4;
-  yield 5;
-};
-const iterable = numberGenerator();
-
-for(let i of iterable) {
-  console.log(`${i} in for`);
-}
-
-from(iterable).subscribe(observer);
+keyUpCode$.subscribe(printKey);
